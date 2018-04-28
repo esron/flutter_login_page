@@ -21,6 +21,13 @@ class LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   AnimationController _iconAnimationController;
   Animation<double> _iconAnimation;
+  bool _isLogginIn = true;
+
+  void _toggleLogin() {
+    setState(() {
+          _isLogginIn = !_isLogginIn;
+        });
+  }
 
   @override
   void initState() {
@@ -36,6 +43,7 @@ class LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: new Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -45,7 +53,7 @@ class LoginPageState extends State<LoginPage>
           ),
           new Center(
             child: new Container(
-              width: 300.0, 
+              width: 300.0,
               height: 350.0,
               padding: EdgeInsets.all(10.0),
               color: Colors.white30,
@@ -85,9 +93,13 @@ class LoginPageState extends State<LoginPage>
                           ),
                           new MaterialButton(
                             minWidth: 150.0,
-                            color: Colors.redAccent,
+                            color: (_isLogginIn
+                                ? Colors.redAccent
+                                : Colors.white70),
                             textColor: Colors.black,
-                            child: new Text('Sign in'),
+                            child: (_isLogginIn
+                                ? new Text('Sign in')
+                                : new Text('Sing up')),
                             onPressed: () => {},
                           ),
                           new Padding(
@@ -97,8 +109,10 @@ class LoginPageState extends State<LoginPage>
                             minWidth: 150.0,
                             color: Colors.white70,
                             textColor: Colors.black87,
-                            child: new Text('Sign up'),
-                            onPressed: () => {},
+                            child: (_isLogginIn
+                                ? new Text('Sign up')
+                                : new Text('Back to Login')),
+                            onPressed: _toggleLogin,
                           )
                         ],
                       ),
